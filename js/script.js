@@ -1,6 +1,6 @@
-$(function () { // Same as document.addEventListener("DOMContentLoaded"...
+$(function () { // То же, что и document.addEventListener("DOMContentLoaded"...
 
-  // Same as document.querySelector("#navbarToggle").addEventListener("blur",...
+  // $ - То же, что и document.querySelector("#navbarToggle").addEventListener("blur",...
   $("#navbarToggle").blur(function (event) {
     var screenWidth = window.innerWidth;
     if (screenWidth < 768) {
@@ -23,21 +23,21 @@ var menuItemsUrl =
 var menuItemsTitleHtml = "snippets/menu-items-title.html";
 var menuItemHtml = "snippets/menu-item.html";
 
-// Convenience function for inserting innerHTML for 'select'
+// Удобная функция для вставки innerHTML для 'select'
 var insertHtml = function (selector, html) {
   var targetElem = document.querySelector(selector);
   targetElem.innerHTML = html;
 };
 
-// Show loading icon inside element identified by 'selector'.
+// Показать значок загрузки внутри элемента, указанного 'селектором'.
 var showLoading = function (selector) {
   var html = "<div class='text-center'>";
   html += "<img src='images/ajax-loader.gif'></div>";
   insertHtml(selector, html);
 };
 
-// Return substitute of '{{propName}}'
-// with propValue in given 'string'
+// Возвращает замену '{{propName}}'
+// с propValue в заданной 'string'
 var insertProperty = function (string, propName, propValue) {
   var propToReplace = "{{" + propName + "}}";
   string = string
@@ -45,14 +45,14 @@ var insertProperty = function (string, propName, propValue) {
   return string;
 };
 
-// Remove the class 'active' from home and switch to Menu button
+// Удалите класс 'active' из кнопки home и переключите на кнопку Menu
 var switchMenuToActive = function () {
-  // Remove 'active' from home button
+// Удалите класс 'active' из кнопки home
   var classes = document.querySelector("#navHomeButton").className;
   classes = classes.replace(new RegExp("active", "g"), "");
   document.querySelector("#navHomeButton").className = classes;
 
-  // Add 'active' to menu button if not already there
+  // Добавьте 'active' к кнопке меню, если его там еще нет
   classes = document.querySelector("#navMenuButton").className;
   if (classes.indexOf("active") === -1) {
     classes += " active";
@@ -60,85 +60,82 @@ var switchMenuToActive = function () {
   }
 };
 
-// On page load (before images or CSS)
+// При загрузке страницы (до изображений или CSS)
 document.addEventListener("DOMContentLoaded", function (event) {
 
-// TODO: STEP 0: Look over the code from
-// *** start ***
-// to
-// *** finish ***
-// below.
-// We changed this code to retrieve all categories from the server instead of
-// simply requesting home HTML snippet. We now also have another function
-// called buildAndShowHomeHTML that will receive all the categories from the server
-// and process them: choose random category, retrieve home HTML snippet, insert that
-// random category into the home HTML snippet, and then insert that snippet into our
-// main page (index.html).
+ //TODO: STEP 0: Просмотрите код с.
+ // *** начало ***
+ // до
+ // *** конец ***
+ // ниже.
+ // Мы изменили этот код, чтобы получить все категории с сервера вместо простого запроса домашнего HTML-фрагмента. 
+ //Теперь у нас есть еще одна функция под названием buildAndShowHomeHTML, 
+ //которая будет получать все категории с сервера и обрабатывать их: выбирать случайную категорию,
+ // получать домашний HTML сниппет, вставлять эту случайную категорию в домашний HTML сниппет, 
+ //а затем вставлять этот сниппет в нашу главную страницу (index.html).
 //
-// TODO: STEP 1: Substitute [...] below with the *value* of the function buildAndShowHomeHTML,
-// so it can be called when server responds with the categories data.
+// TODO: STEP 1: Замените [...] ниже *значением* функции buildAndShowHomeHTML, 
+//чтобы ее можно было вызвать, когда сервер ответит данными о категориях.
 
-// *** start ***
-// On first load, show home view
+// *** начало ***
+// При первой загрузке показываем главную страницу
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
   allCategoriesUrl,
- buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Substitute [...] ******
-  true); // Explicitly setting the flag to get JSON from server processed into an object literal
+ buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Замените [...] ******
+  true); // Явная установка флага для получения JSON с сервера, обработанного в объектном литерале
 });
-// *** finish **
+// *** конец **
 
 
-// Builds HTML for the home page based on categories array
-// returned from the server.
+// Строит HTML для домашней страницы на основе массива категорий, возвращаемого с сервера.
 function buildAndShowHomeHTML (categories) {
 
-  // Load home snippet page
+  // Загружаем страницу с домашним фрагментом
   $ajaxUtils.sendGetRequest(
     homeHtmlUrl,
     function (homeHtml) {
-var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
-      // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
-      // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
-      // variable's name implies it expects.
-      // var chosenCategoryShortName = ....
+  
+      // TODO: STEP 2: Здесь вызываем selectRandomCategory, передавая ему полученные 'категории'.
+      //  Обратите внимание на то, какой тип данных возвращает эта функция, а также на то, что переменная selectedCategoryShortName.
+      // Имя переменной подразумевает, что она ожидает var chosenCategoryShortName = ....
+  var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
 
-
-      // TODO: STEP 3: Substitute {{randomCategoryShortName}} in the home html snippet with the
-      // chosen category from STEP 2. Use existing insertProperty function for that purpose.
-      // Look through this code for an example of how to do use the insertProperty function.
-      // WARNING! You are inserting something that will have to result in a valid Javascript
-      // syntax because the substitution of {{randomCategoryShortName}} becomes an argument
-      // being passed into the $dc.loadMenuItems function. Think about what that argument needs
-      // to look like. For example, a valid call would look something like this:
+      // TODO: STEP 3: Замените {{randomCategoryShortName}} в домашнем html-фрагменте выбранной категорией из ШАГА 2. 
+      //Используйте для этого существующую функцию insertProperty.
+      // Посмотрите этот код для примера использования функции insertProperty.
+      // ВНИМАНИЕ! Вы вставляете что-то, что должно привести к правильному синтаксису Javascript, 
+      // потому что подстановка {{randomCategoryShortName}} становится аргументом, 
+      // передаваемым в функцию $dc.loadMenuItems. Подумайте, как должен выглядеть этот 
+      // аргумент. Например, правильный вызов будет выглядеть следующим образом:
       // $dc.loadMenuItems('L')
-      // Hint: you need to surround the chosen category short name with something before inserting
-      // it into the home html snippet.
+      // Подсказка: вам нужно окружить выбранное короткое название категории чем-то, 
+      // прежде чем вставить его в домашний html-фрагмент.
       //
       // var homeHtmlToInsertIntoMainPage = ....
       chosenCategoryShortName = "'"+ chosenCategoryShortName + "'";
       var homeHtmlToInsertIntoMainPage = insertProperty (homeHtml, "randomCategoryShortName", chosenCategoryShortName);
-      // TODO: STEP 4: Insert the produced HTML in STEP 3 into the main page
-      // Use the existing insertHtml function for that purpose. Look through this code for an example
-      // of how to do that.
+      
+      // TODO: STEP 4: Вставьте HTML, созданный в ШАГЕ 3, на главную страницу.
+      // Используйте для этого существующую функцию insertHtml.
+      // Посмотрите в этом коде пример того, как это сделать.
       // ....
       insertHtml ("#main-content", homeHtmlToInsertIntoMainPage);
     },
-    false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
+    false); // Здесь False, потому что мы получаем обычный HTML с сервера, поэтому нет необходимости обрабатывать JSON.
 }
 
-
-// Given array of category objects, returns a random category object.
+// Учитывая массив объектов категорий, возвращает случайный объект категории.
 function chooseRandomCategory (categories) {
-  // Choose a random index into the array (from 0 inclusively until array length (exclusively))
+ // Выбираем случайный индекс в массиве (от 0 включительно до длины массива (исключительно))
   var randomArrayIndex = Math.floor(Math.random() * categories.length);
 
-  // return category object with that randomArrayIndex
+   // возвращает объект категории с этим индексом randomArrayIndex
   return categories[randomArrayIndex];
 }
 
 
-// Load the menu categories view
+// Загрузка представления категорий меню
 dc.loadMenuCategories = function () {
   showLoading("#main-content");
   $ajaxUtils.sendGetRequest(
@@ -147,8 +144,8 @@ dc.loadMenuCategories = function () {
 };
 
 
-// Load the menu items view
-// 'categoryShort' is a short_name for a category
+// Загрузка представления пунктов меню
+// 'categoryShort' - короткое_название категории
 dc.loadMenuItems = function (categoryShort) {
   showLoading("#main-content");
   $ajaxUtils.sendGetRequest(
@@ -157,18 +154,17 @@ dc.loadMenuItems = function (categoryShort) {
 };
 
 
-// Builds HTML for the categories page based on the data
-// from the server
+// Строит HTML для страницы категорий на основе данных с сервера
 function buildAndShowCategoriesHTML (categories) {
-  // Load title snippet of categories page
+// Загружаем фрагмент заголовка страницы категорий
   $ajaxUtils.sendGetRequest(
     categoriesTitleHtml,
     function (categoriesTitleHtml) {
-      // Retrieve single category snippet
+      // Получение фрагмента одной категории
       $ajaxUtils.sendGetRequest(
         categoryHtml,
         function (categoryHtml) {
-          // Switch CSS class active to menu button
+           // Переключить CSS-класс active на кнопку меню
           switchMenuToActive();
 
           var categoriesViewHtml =
@@ -183,8 +179,7 @@ function buildAndShowCategoriesHTML (categories) {
 }
 
 
-// Using categories data and snippets html
-// build categories view HTML to be inserted into page
+// Использование данных категорий и сниппетов html для постройки HTML представления категорий для вставки на страницу
 function buildCategoriesViewHtml(categories,
                                  categoriesTitleHtml,
                                  categoryHtml) {
@@ -192,9 +187,9 @@ function buildCategoriesViewHtml(categories,
   var finalHtml = categoriesTitleHtml;
   finalHtml += "<section class='row'>";
 
-  // Loop over categories
+// Цикл для перебора категорий
   for (var i = 0; i < categories.length; i++) {
-    // Insert category values
+    // Вставьте значения категорий
     var html = categoryHtml;
     var name = "" + categories[i].name;
     var short_name = categories[i].short_name;
@@ -213,18 +208,17 @@ function buildCategoriesViewHtml(categories,
 
 
 
-// Builds HTML for the single category page based on the data
-// from the server
+// Строит HTML для страницы одной категории на основе данных с сервера
 function buildAndShowMenuItemsHTML (categoryMenuItems) {
-  // Load title snippet of menu items page
+  // Загрузка фрагмента заголовка страницы пунктов меню
   $ajaxUtils.sendGetRequest(
     menuItemsTitleHtml,
     function (menuItemsTitleHtml) {
-      // Retrieve single menu item snippet
+      // Получение фрагмента одного пункта меню
       $ajaxUtils.sendGetRequest(
         menuItemHtml,
         function (menuItemHtml) {
-          // Switch CSS class active to menu button
+           // Переключить CSS-класс active на кнопку меню
           switchMenuToActive();
 
           var menuItemsViewHtml =
@@ -239,8 +233,8 @@ function buildAndShowMenuItemsHTML (categoryMenuItems) {
 }
 
 
-// Using category and menu items data and snippets html
-// build menu items view HTML to be inserted into page
+// Используя данные о категориях и пунктах меню и сниппеты html, 
+//постройтение представления пунктов меню HTML для вставки на страницу
 function buildMenuItemsViewHtml(categoryMenuItems,
                                 menuItemsTitleHtml,
                                 menuItemHtml) {
@@ -257,11 +251,11 @@ function buildMenuItemsViewHtml(categoryMenuItems,
   var finalHtml = menuItemsTitleHtml;
   finalHtml += "<section class='row'>";
 
-  // Loop over menu items
+  // Перебор пунктов меню
   var menuItems = categoryMenuItems.menu_items;
   var catShortName = categoryMenuItems.category.short_name;
   for (var i = 0; i < menuItems.length; i++) {
-    // Insert menu item values
+    // Вставка значений пунктов меню
     var html = menuItemHtml;
     html =
       insertProperty(html, "short_name", menuItems[i].short_name);
@@ -294,7 +288,7 @@ function buildMenuItemsViewHtml(categoryMenuItems,
                      "description",
                      menuItems[i].description);
 
-    // Add clearfix after every second menu item
+      // Добавляет clearfix после каждого второго пункта меню
     if (i % 2 !== 0) {
       html +=
         "<div class='clearfix visible-lg-block visible-md-block'></div>";
@@ -308,11 +302,11 @@ function buildMenuItemsViewHtml(categoryMenuItems,
 }
 
 
-// Appends price with '$' if price exists
+// Добавляет цену с '$', если цена существует
 function insertItemPrice(html,
                          pricePropName,
                          priceValue) {
-  // If not specified, replace with empty string
+  // Если не указано, заменить на пустую строку
   if (!priceValue) {
     return insertProperty(html, pricePropName, "");
   }
@@ -323,11 +317,11 @@ function insertItemPrice(html,
 }
 
 
-// Appends portion name in parens if it exists
+// Добавляет имя порции в круглые скобки, если оно существует
 function insertItemPortionName(html,
                                portionPropName,
                                portionValue) {
-  // If not specified, return original string
+ // Если не указано, возвращается исходная строка
   if (!portionValue) {
     return insertProperty(html, portionPropName, "");
   }
