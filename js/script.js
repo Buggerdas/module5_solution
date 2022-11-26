@@ -96,8 +96,8 @@ function buildAndShowHomeHTML (categories) {
     homeHtmlUrl,
     function (homeHtml) {
   
-      // TODO: STEP 2: Здесь вызываем selectRandomCategory, передавая ему полученные 'категории'.
-      //  Обратите внимание на то, какой тип данных возвращает эта функция, а также на то, что переменная selectedCategoryShortName.
+      // TODO: STEP 2: Здесь вызываем chooseRandomCategory, передавая ему полученные 'категории'.
+      // Обратите внимание на то, какой тип данных возвращает эта функция, в сравнении с тем, что подразумевает имя переменной chosenCategoryShortName, которую она ожидает.
       // Имя переменной подразумевает, что она ожидает var chosenCategoryShortName = ....
   var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
 
